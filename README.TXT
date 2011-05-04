@@ -38,3 +38,12 @@ MemoryClassLoader.java
 
 LoopCompiler.java
 - erm, not sure! TODO: work out what this does.
+
+
+Order of Operations
+1. Call MemoryCompiler.compile(String sourceCode, String className).
+2. This creates a new JavaSourceFromString object.
+3. Creates an Iterable list of JavaFileObjects called "compilationUnits".
+4. compilationUnits is passed to the compiler.getTask() method, along with the MemoryFileManager.
+5. CompilationTask is call()ed.
+6. A new MemoryClassLoader is created from the updated FileManager.

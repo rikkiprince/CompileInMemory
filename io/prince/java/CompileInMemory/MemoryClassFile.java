@@ -16,12 +16,15 @@ public class MemoryClassFile extends SimpleJavaFileObject
 		super(uri, kind);
 	}
 	
+	// To WRITE TO this file
 	public OutputStream openOutputStream()
 	{
+		// TODO: check if file == null?
 		file = new ByteArrayOutputStream();
 		return file;
 	}
 	
+	// To READ FROM this file
 	public InputStream openInputStream()
 	{
 		if(file != null)

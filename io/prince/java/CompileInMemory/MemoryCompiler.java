@@ -10,10 +10,10 @@ import javax.tools.JavaCompiler.CompilationTask;
 
 public class MemoryCompiler
 {
-	JavaCompiler compiler;
-	JavaFileManager standardFileManager;
-	MemoryFileManager fileManager;
-	MemoryClassLoader classLoader;
+	private JavaCompiler compiler;
+	protected JavaFileManager standardFileManager;
+	protected MemoryFileManager fileManager;
+	protected MemoryClassLoader classLoader;
 	
 	
 	public boolean compile(String sourceCode) throws ClassNameNotFoundException

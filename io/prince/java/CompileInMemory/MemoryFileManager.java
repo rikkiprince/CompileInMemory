@@ -14,24 +14,24 @@ public class MemoryFileManager extends ForwardingJavaFileManager<JavaFileManager
 {
 	Map<String,JavaFileObject> memoryFileSystem;
 
-	protected MemoryFileManager(JavaFileManager manager)
+	public MemoryFileManager(JavaFileManager manager)
 	{
 		super(manager);
 		
 		memoryFileSystem = new HashMap<String,JavaFileObject>();
 	}
 	
-	public JavaFileObject getJavaFileForOutput(JavaFileManager.Location location, String fileName, JavaFileObject.Kind kind, FileObject sibling) throws IOException
+	public JavaFileObject getJavaFileForOutput(JavaFileManager.Location location, String className, JavaFileObject.Kind kind, FileObject sibling) throws IOException
 	{
 		//System.out.println("getJavaFileForOutput("+location+","+fileName+","+kind+","+sibling+")");
 		if(kind == Kind.CLASS && location == StandardLocation.CLASS_OUTPUT)
 		{
 			try
 			{
-				MemoryClassFile file = new MemoryClassFile(new URI(fileName), kind);
+				MemoryClassFile file = new MemoryClassFile(new URI(className), kind);
 				
 				@SuppressWarnings("unused") // just in case we want to allow the user to access old files in future
-				JavaFileObject old = memoryFileSystem.put(fileName, file);
+				JavaFileObject old = memoryFileSystem.put(className, file);
 				
 				return file;
 			}
@@ -41,7 +41,7 @@ public class MemoryFileManager extends ForwardingJavaFileManager<JavaFileManager
 			}
 		}
 		else
-			return super.getJavaFileForOutput(location, fileName, kind, sibling);
+			return super.getJavaFileForOutput(location, className, kind, sibling);
 	}
 
 	public JavaFileObject getJavaFileForInput(JavaFileManager.Location location, String fileName, JavaFileObject.Kind kind) throws IOException
