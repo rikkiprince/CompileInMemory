@@ -1,17 +1,23 @@
 Compile In Memory
+=================
 
 Rikki Prince - rikki@prince.io
 
 Prerequisites
+-------------
 - BeerPump.jar
 - FlexiFile.jar
 
+
+Introduction
+------------
 Code influenced by examples on the web, which now seem to have disappeared.  URLs for original source are in the code comments.
 
 This code was altered and simplified from the example code referenced, to make it into this usable library.
 
 
 File Summary (in order of usefulness!)
+------------
 
 MemoryCompiler.java
 - You should create one of these.
