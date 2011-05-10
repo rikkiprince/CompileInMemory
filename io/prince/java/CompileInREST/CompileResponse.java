@@ -28,7 +28,7 @@ public class CompileResponse extends HTTPResponse
 		byte[] classFile = new byte[0];
 		try
 		{
-			className = MemoryCompiler.detectClassName(sourceCode);
+			className = SomeSortOfCompiler.detectClassName(sourceCode);
 			
 			// compile the source code
 			JavaFileObject source = new JavaSourceFromString(className, sourceCode);

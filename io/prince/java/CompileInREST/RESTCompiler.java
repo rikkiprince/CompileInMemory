@@ -8,12 +8,12 @@ import javax.tools.JavaFileObject.Kind;
 
 import io.prince.java.CompileInMemory.*;
 
-public class RESTCompiler extends MemoryCompiler
+public class RESTCompiler extends SomeSortOfCompiler
 {
-	String host;
+	private String host;
 
 	// may also be host:port in one string
-	public RESTCompiler(String host) throws CompilerNotAccessibleException
+	public RESTCompiler(String host)
 	{
 		super();
 		

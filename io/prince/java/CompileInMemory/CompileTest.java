@@ -32,7 +32,7 @@ public class CompileTest
 		
 		compiler.compile(sourceCode, className, methodName);*/
 		
-		MemoryCompiler compiler = new MemoryCompiler();
+		SomeSortOfCompiler compiler = new MemoryCompiler();
 		try
 		{
 			compiler.compile(sourceCode);
