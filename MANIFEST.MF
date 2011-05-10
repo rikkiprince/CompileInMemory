@@ -1,0 +1,4 @@
+Manifest-Version: 1.0
+Main-Class: io.prince.java.CompileInREST.CompileServer
+Class-Path: BeerPump.jar FlexiFile.jar
+
