@@ -2,6 +2,10 @@ Compile In Memory
 
 Rikki Prince - rikki@prince.io
 
+Prerequisites
+- BeerPump.jar
+- FlexiFile.jar
+
 Code influenced by examples on the web, which now seem to have disappeared.  URLs for original source are in the code comments.
 
 This code was altered and simplified from the example code referenced, to make it into this usable library.
