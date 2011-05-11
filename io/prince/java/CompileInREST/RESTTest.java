@@ -36,7 +36,7 @@ public class RESTTest
 		
 		compiler.compile(sourceCode, className, methodName);*/
 		
-		RESTCompiler compiler = new RESTCompiler("localhost:25518");
+		RESTCompiler compiler = new RESTCompiler("localhost:34200");
 		try
 		{
 			compiler.compile(sourceCode);

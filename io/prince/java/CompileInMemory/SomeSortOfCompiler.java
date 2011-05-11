@@ -14,8 +14,8 @@ public abstract class SomeSortOfCompiler
 	
 	public SomeSortOfCompiler()
 	{
-		this.standardFileManager = null;	// can this be null?
-		this.fileManager = new MemoryFileManager(standardFileManager);	// TODO: what happens here if given null?
+		this.standardFileManager = new SomeSortOfStandardJavaFileManager();	// can this be null? It cannot!
+		this.fileManager = new MemoryFileManager(standardFileManager);	// what happens here if given null? NullPointerException!
 		this.classLoader = new MemoryClassLoader(fileManager);
 	}
 	
