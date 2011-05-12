@@ -45,6 +45,8 @@ public class RESTCompiler extends SomeSortOfCompiler
 		{
 			byte[] byteCode = post(sourceCode);
 			
+			System.out.println(new String(byteCode));
+			
 			//String fileName = className + ".class";	// TODO: is this right?
 			
 			// May provide null as 'sibling'. Not sure which is best. sibling used to 'hint' at location.

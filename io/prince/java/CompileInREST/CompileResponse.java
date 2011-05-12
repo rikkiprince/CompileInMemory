@@ -17,8 +17,15 @@ public class CompileResponse extends HTTPResponse
 	{
 		super(req);
 		
+		System.out.println("Hello there!");
+		
 		//set up variables needed for in memory compilation
 		JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
+		if(compiler == null)
+		{
+			System.err.println("Compiler not available on Compile Server. Check JDK.");
+			throw new HTTPException(500, "Compiler not available on Compile Server. Check JDK.");
+		}
 		JavaFileManager standardFileManager = compiler.getStandardFileManager(null, null, null);;
 		MemoryFileManager fileManager = new MemoryFileManager(standardFileManager);
 		
