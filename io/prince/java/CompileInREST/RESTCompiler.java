@@ -2,9 +2,16 @@ package io.prince.java.CompileInREST;
 
 import java.io.*;
 import java.net.*;
+import java.util.Arrays;
 
 import javax.tools.*;
 import javax.tools.JavaFileObject.Kind;
+
+import org.apache.http.*;
+import org.apache.http.client.*;
+import org.apache.http.client.methods.*;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.*;
 
 import io.prince.java.CompileInMemory.*;
 
@@ -43,7 +50,16 @@ public class RESTCompiler extends SomeSortOfCompiler
 		boolean success = false;
 		try
 		{
-			byte[] byteCode = post(sourceCode);
+			byte[] byteCode = postWithApache(sourceCode);
+			
+			System.out.println("First character: "+byteCode[0]);
+			
+			if(byteCode[0] == 10)
+			{
+				System.err.println("First character is a 10.");
+				byteCode = Arrays.copyOfRange(byteCode, 1, byteCode.length);
+				System.out.println("New length is "+byteCode.length);
+			}
 			
 			System.out.println(new String(byteCode));
 			
@@ -68,14 +84,14 @@ public class RESTCompiler extends SomeSortOfCompiler
 			success = false;
 		}
 		
-		if(success ) System.out.println("Compiled successfully!");
+		if(success) System.out.println("Compiled successfully!");
 		
 		classLoader = new MemoryClassLoader(fileManager);
 		
 		return success;
 	}
 	
-	private byte[] post(String sourceCode) throws IOException
+	private byte[] postWithJava(String sourceCode) throws IOException
 	{
 		String uri = "http://" + this.host + "/compile";
 		
@@ -96,10 +112,47 @@ public class RESTCompiler extends SomeSortOfCompiler
 		pw.flush();
 		
 		
-		/*System.out.println(h.getResponseCode());
-		System.out.println(h.getResponseMessage());*/
+		//System.out.println(h.getResponseCode());
+		//System.out.println(h.getResponseMessage());
 		
 		byte[] classFile = CompileResponse.convertInputStreamToByteArray(h.getInputStream());
+		
+		System.out.println("Response claimed length: "+h.getHeaderField("Content-length"));
+		System.out.println("Read stream bytes: "+classFile.length);
+		
+		return classFile;
+	}
+	
+	private byte[] postWithApache(String sourceCode) throws IOException
+	{
+		String uri = "http://" + this.host + "/compile";
+		
+		HttpClient httpclient = new DefaultHttpClient();
+		HttpPost httppost = new HttpPost(uri);
+
+		
+		String body = sourceCode;
+		
+		httppost.addHeader("Content-type", "text/plain");
+		//httppost.addHeader("Content-length", ""+body.getBytes().length);
+		
+//		PrintWriter pw = new PrintWriter(h.getOutputStream());
+//		pw.print(body);
+//		pw.flush();
+		
+		httppost.setEntity(new StringEntity(body));
+		
+		HttpResponse response = httpclient.execute(httppost);
+		
+		
+		
+		//byte[] classFile = CompileResponse.convertInputStreamToByteArray(h.getInputStream());
+		HttpEntity result = response.getEntity();
+		byte[] classFile = CompileResponse.convertInputStreamToByteArray(result.getContent());
+		
+		Header contentLength = response.getFirstHeader("Content-length");
+		System.out.println("Response claimed length: "+contentLength.getValue());
+		System.out.println("Read stream bytes: "+classFile.length);
 		
 		return classFile;
 	}
