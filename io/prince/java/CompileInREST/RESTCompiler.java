@@ -50,7 +50,7 @@ public class RESTCompiler extends SomeSortOfCompiler
 		boolean success = false;
 		try
 		{
-			byte[] byteCode = postWithApache(sourceCode);
+			byte[] byteCode = postWithJava(sourceCode);
 			
 			System.out.println("First character: "+byteCode[0]);
 			
@@ -123,6 +123,7 @@ public class RESTCompiler extends SomeSortOfCompiler
 		return classFile;
 	}
 	
+	@SuppressWarnings("unused")
 	private byte[] postWithApache(String sourceCode) throws IOException
 	{
 		String uri = "http://" + this.host + "/compile";
