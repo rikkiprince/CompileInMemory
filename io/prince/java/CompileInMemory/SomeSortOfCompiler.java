@@ -1,8 +1,7 @@
 package io.prince.java.CompileInMemory;
+import java.io.*;
 import java.lang.reflect.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
+import java.util.regex.*;
 import javax.tools.*;
 
 
@@ -12,11 +11,20 @@ public abstract class SomeSortOfCompiler
 	protected MemoryFileManager fileManager;
 	protected MemoryClassLoader classLoader;
 	
+	protected Writer out;
+	
 	public SomeSortOfCompiler()
+	{
+		this(null);
+	}
+	
+	public SomeSortOfCompiler(Writer out)
 	{
 		this.standardFileManager = new SomeSortOfStandardJavaFileManager();	// can this be null? It cannot!
 		this.fileManager = new MemoryFileManager(standardFileManager);	// what happens here if given null? NullPointerException!
 		this.classLoader = new MemoryClassLoader(fileManager);
+		
+		this.out = out;
 	}
 	
 	// the method that actually does the compilation (varies by type of compiler)

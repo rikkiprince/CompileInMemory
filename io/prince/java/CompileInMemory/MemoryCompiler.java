@@ -1,5 +1,6 @@
 package io.prince.java.CompileInMemory;
-import java.util.Arrays;
+import java.io.*;
+import java.util.*;
 
 import javax.tools.*;
 import javax.tools.JavaCompiler.CompilationTask;
@@ -8,9 +9,15 @@ import javax.tools.JavaCompiler.CompilationTask;
 public class MemoryCompiler extends SomeSortOfCompiler
 {
 	private JavaCompiler compiler;
-
+	
 	public MemoryCompiler() throws CompilerNotAccessibleException
 	{
+		this(null);
+	}
+
+	public MemoryCompiler(Writer out) throws CompilerNotAccessibleException
+	{
+		super(out);
 		this.compiler = ToolProvider.getSystemJavaCompiler();
 		if(this.compiler == null)
 		{
@@ -24,13 +31,17 @@ public class MemoryCompiler extends SomeSortOfCompiler
 	
 	public boolean compile(String sourceCode, String className)
 	{
+		// ANON: (1) This should return a Collection<Diagnostic> or at least of a simpler class that stores the info.
+		/* Although possibly assuming failure is incorrect?  Maybe return a "ResultSet" or something?  It could contain compilation
+		 * errors, a reference to the classloader and a method to run this new class?
+		 */
 		System.out.println("Compiling...");
 
 		// http://www.java2s.com/Code/Java/JDK-6/CompilingfromMemory.htm
 		JavaFileObject source = new JavaSourceFromString(className, sourceCode);
 		Iterable<? extends JavaFileObject> compilationUnits = Arrays.asList(source);
 
-		CompilationTask task = compiler.getTask(null, fileManager, null, null, null, compilationUnits);
+		CompilationTask task = compiler.getTask(this.out, fileManager, new MyDiagnosticListener(), null, null, compilationUnits);
 		
 		boolean success = task.call();
 		if(success) System.out.println("Compiled successfully!");

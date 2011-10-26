@@ -18,6 +18,14 @@ import io.prince.java.CompileInMemory.*;
 public class RESTCompiler extends SomeSortOfCompiler
 {
 	private String host;
+	
+	/* TODO: add support for PrintWriter out
+	 * requires:
+	 * - adding support to server to combine errors into body
+	 * -- 500 error and full body?
+	 * -- multi-part response with .class and compiler errors?
+	 * - adding support here to parse response
+	 */
 
 	// may also be host:port in one string
 	public RESTCompiler(String host)
